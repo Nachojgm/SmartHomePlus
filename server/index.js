@@ -23,6 +23,8 @@ const TOPICS = {
   horno: `${TOPIC_PREFIX}/devices/horno_electrico`,
   calefactor: `${TOPIC_PREFIX}/devices/calefactor`,
   televisor: `${TOPIC_PREFIX}/devices/televisor_dormitorio`,
+  fogDashboard: `${TOPIC_PREFIX}/fog/dashboard`,
+  cloudDashboard: `${TOPIC_PREFIX}/cloud/dashboard`,
   control: `${TOPIC_PREFIX}/control`
 };
 
@@ -256,7 +258,79 @@ function emitState() {
   io.emit("state", computePublicState());
 }
 
+function pushHistoryPoint(hora, values = {}) {
+  if (!hora || hora === "--:--" || state.lastChartHora === hora) return;
+
+  const publicState = computePublicState();
+  state.history.push({
+    hora,
+    totalLoad: safeNumber(values.totalLoad ?? publicState.totalLoad),
+    pvPower: safeNumber(values.pvPower ?? publicState.pvPower),
+    gridPower: safeNumber(values.gridPower ?? publicState.gridPower),
+    horno: safeNumber(values.horno ?? publicState.horno),
+    calefactor: safeNumber(values.calefactor ?? publicState.calefactor),
+    televisor: safeNumber(values.televisor ?? publicState.televisor),
+    evPower: safeNumber(values.evPower ?? publicState.evPower)
+  });
+  state.lastChartHora = hora;
+}
+
+function processDashboardPayload(payload) {
+  const hora = payload?.simHora || payload?.hora || state.simHora || "--:--";
+  if (hora !== "--:--") state.simHora = hora;
+
+  state.realTimestamp = payload?.realTimestamp || new Date().toLocaleString("es-CL");
+  state.mqtt.lastMessageAt = new Date().toISOString();
+
+  state.smartMeter = safeNumber(payload?.totalLoad ?? payload?.smartMeter ?? state.smartMeter);
+  state.pvPower = safeNumber(payload?.pvPower ?? state.pvPower);
+  state.evPower = safeNumber(payload?.evPower ?? state.evPower);
+  state.batterySoc = safeNumber(payload?.batterySoc ?? state.batterySoc);
+
+  state.horno = safeNumber(payload?.horno ?? state.horno);
+  state.calefactor = safeNumber(payload?.calefactor ?? state.calefactor);
+  state.televisor = safeNumber(payload?.televisor ?? state.televisor);
+
+  state.hornoMode = payload?.hornoMode || state.hornoMode || "apagado";
+  state.calefactorMode = payload?.calefactorMode || state.calefactorMode || "apagado";
+  state.televisorMode = payload?.televisorMode || state.televisorMode || "apagado";
+
+  if (payload?.energy) {
+    state.energy.totalHouse = safeNumber(payload.energy.total_house_kwh, state.energy.totalHouse);
+    state.energy.horno = safeNumber(payload.energy.horno_kwh, state.energy.horno);
+    state.energy.calefactor = safeNumber(payload.energy.calefactor_kwh, state.energy.calefactor);
+    state.energy.televisor = safeNumber(payload.energy.televisor_kwh, state.energy.televisor);
+    state.energy.ev = safeNumber(payload.energy.ev_kwh, state.energy.ev);
+    state.energy.pv = safeNumber(payload.energy.pv_kwh, state.energy.pv);
+  }
+
+  if (payload?.costs?.price_clp_kwh !== undefined) {
+    state.costs.priceClpKwh = safeNumber(payload.costs.price_clp_kwh, state.costs.priceClpKwh);
+  }
+
+  pushHistoryPoint(hora, {
+    totalLoad: payload?.totalLoad ?? payload?.smartMeter,
+    pvPower: payload?.pvPower,
+    gridPower: payload?.gridPower,
+    horno: payload?.horno,
+    calefactor: payload?.calefactor,
+    televisor: payload?.televisor,
+    evPower: payload?.evPower
+  });
+
+  if (state.history.length > MAX_HISTORY) {
+    state.history = state.history.slice(state.history.length - MAX_HISTORY);
+  }
+
+  emitState();
+}
+
 function processTelemetry(topic, payload) {
+  if (topic === TOPICS.cloudDashboard || topic === TOPICS.fogDashboard) {
+    processDashboardPayload(payload);
+    return;
+  }
+
   const hora = payload?.hora || state.simHora || "--:--";
   if (hora !== "--:--") state.simHora = hora;
 
@@ -300,19 +374,8 @@ function processTelemetry(topic, payload) {
       return;
   }
 
-  if (topic === TOPICS.smartMeter && state.lastChartHora !== hora) {
-    const publicState = computePublicState();
-    state.history.push({
-      hora,
-      totalLoad: publicState.totalLoad,
-      pvPower: publicState.pvPower,
-      gridPower: publicState.gridPower,
-      horno: publicState.horno,
-      calefactor: publicState.calefactor,
-      televisor: publicState.televisor,
-      evPower: publicState.evPower
-    });
-    state.lastChartHora = hora;
+  if (topic === TOPICS.smartMeter) {
+    pushHistoryPoint(hora);
   }
 
   if (state.history.length > MAX_HISTORY) {

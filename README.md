@@ -20,9 +20,16 @@ SmartHomePlus/battery_soc
 SmartHomePlus/devices/horno_electrico
 SmartHomePlus/devices/calefactor
 SmartHomePlus/devices/televisor_dormitorio
+SmartHomePlus/fog/dashboard
+SmartHomePlus/cloud/dashboard
 ```
 
 Si cambias el prefijo `SmartHomePlus`, ajusta `MQTT_TOPIC_PREFIX`.
+
+La web puede trabajar de dos formas:
+
+- Recibiendo los topics crudos del ESP32 y calculando el estado en el backend.
+- Recibiendo el topic procesado por Node-RED, especialmente `SmartHomePlus/cloud/dashboard`.
 
 ## Variables de entorno
 
