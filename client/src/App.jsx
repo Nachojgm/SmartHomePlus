@@ -214,14 +214,11 @@ function Welcome({ state, onEnter, socketStatus }) {
           <span className="brand-mark">
             <Home size={22} />
           </span>
-          <span>Smart Home+</span>
+          <span>Gestion residencial inteligente</span>
         </div>
 
-        <h1>Monitoreo energetico IoT-Fog-Cloud</h1>
-        <p>
-          Dashboard publico para observar consumo, generacion fotovoltaica, bateria,
-          red electrica y cargas principales de la vivienda emulada.
-        </p>
+        <h1>SmartHome+</h1>
+        <p>Energia residencial clara, eficiente y conectada en tiempo real.</p>
 
         <div className="welcome-actions">
           <button className="primary-button" type="button" onClick={onEnter}>
@@ -234,11 +231,11 @@ function Welcome({ state, onEnter, socketStatus }) {
         <div className="welcome-stats">
           <span>
             <b>{state.simHora || "--:--"}</b>
-            Hora simulada
+            Hora
           </span>
           <span>
             <b>{formatNumber(state.totalLoad)} W</b>
-            Consumo actual
+            Consumo casa
           </span>
           <span>
             <b>{formatNumber(state.pvPower)} W</b>
@@ -256,25 +253,66 @@ function EnergyHouseScene({ state }) {
   const loadPct = Math.min(100, (Number(state.totalLoad || 0) / 5500) * 100);
   const solarPct = Math.min(100, (Number(state.pvPower || 0) / 3600) * 100);
   const batteryPct = Math.min(100, Number(state.batterySoc || 0));
+  const evActive = Number(state.evPower || 0) > 0;
 
   return (
-    <section className="house-scene" aria-label="Resumen visual de energia">
-      <div className="sun-disc">
+    <section className="house-scene" aria-label="Resumen visual de energia residencial">
+      <div className="scene-skyline" />
+      <div className="sun-disc" style={{ opacity: Math.max(0.45, solarPct / 100) }}>
         <Sun size={36} />
       </div>
-      <div className="house-roof" />
-      <div className="house-body">
-        <div className="house-window active" />
-        <div className="house-door" />
-        <div className="house-window" />
+
+      <div className="modern-home">
+        <div className="solar-roof">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <div className="upper-floor">
+          <div className="wide-window lit" />
+          <div className="wide-window" />
+        </div>
+
+        <div className="main-floor">
+          <div className="living-window lit" />
+          <div className="front-door" />
+          <div className="garage-door">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+
+        <div className="home-controls">
+          <div className="wall-battery">
+            <BatteryCharging size={18} />
+            <b>{formatNumber(batteryPct)}%</b>
+          </div>
+          <div className={`ev-charger ${evActive ? "charging" : ""}`}>
+            <PlugZap size={20} />
+          </div>
+        </div>
       </div>
+
+      <div className={`ev-car ${evActive ? "charging" : ""}`}>
+        <div className="car-cabin" />
+        <div className="car-body" />
+        <div className="car-light" />
+        <span className="wheel left" />
+        <span className="wheel right" />
+      </div>
+
       <div className="energy-flow solar-flow" style={{ width: `${Math.max(18, solarPct)}%` }} />
       <div className="energy-flow load-flow" style={{ width: `${Math.max(18, loadPct)}%` }} />
+      <div className="charger-cable" />
 
       <div className="scene-meters">
         <SceneMeter label="FV" value={`${formatNumber(state.pvPower)} W`} icon={<Sun size={18} />} />
         <SceneMeter label="Casa" value={`${formatNumber(state.totalLoad)} W`} icon={<Zap size={18} />} />
         <SceneMeter label="Bateria" value={`${formatNumber(batteryPct)} %`} icon={<BatteryCharging size={18} />} />
+        <SceneMeter label="EV" value={`${formatNumber(state.evPower)} W`} icon={<PlugZap size={18} />} />
       </div>
     </section>
   );
