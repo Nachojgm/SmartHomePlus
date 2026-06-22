@@ -80,15 +80,18 @@ function formatClp(value) {
   return `$${Math.round(Number(value || 0)).toLocaleString("es-CL")} CLP`;
 }
 
+function readInitialTariff() {
+  const saved = Number(localStorage.getItem("smartHomeTariffClpKwh"));
+  return Number.isFinite(saved) && saved >= 0 ? saved : 200;
+}
+
 function App() {
   const [view, setView] = useState("welcome");
   const [state, setState] = useState(emptyState);
   const [socketStatus, setSocketStatus] = useState("connecting");
   const socketRef = useRef(null);
-  const [tariff, setTariff] = useState(() => {
-    const saved = Number(localStorage.getItem("smartHomeTariffClpKwh"));
-    return Number.isFinite(saved) && saved >= 0 ? saved : 200;
-  });
+  const [tariff, setTariff] = useState(readInitialTariff);
+  const [tariffInput, setTariffInput] = useState(() => String(readInitialTariff()));
 
   useEffect(() => {
     const socket = io({
@@ -125,6 +128,7 @@ function App() {
       const savedTariff = Number(localStorage.getItem("smartHomeTariffClpKwh"));
       if (!Number.isFinite(savedTariff) && Number.isFinite(payloadTariff)) {
         setTariff(payloadTariff);
+        setTariffInput(String(payloadTariff));
       }
     });
 
@@ -142,10 +146,26 @@ function App() {
     return Number(state.energy?.total_house_kwh || 0) * Number(tariff || 0);
   }, [state.energy?.total_house_kwh, tariff]);
 
-  const sendTariff = (value) => {
-    const next = Math.max(0, Number(value || 0));
+  const updateTariff = (value) => {
+    const text = String(value).replace(/\D/g, "");
+    setTariffInput(text);
+
+    if (text === "") return;
+
+    const next = Number(text);
+    if (!Number.isFinite(next) || next < 0) return;
+
     setTariff(next);
     socketRef.current?.emit("tariff:update", next);
+  };
+
+  const normalizeTariffInput = () => {
+    if (tariffInput.trim() === "") {
+      setTariffInput(String(tariff));
+      return;
+    }
+
+    setTariffInput(String(Number(tariffInput)));
   };
 
   if (view === "welcome") {
@@ -170,7 +190,9 @@ function App() {
         <aside className="dashboard-side">
           <CostPanel
             tariff={tariff}
-            setTariff={sendTariff}
+            tariffInput={tariffInput}
+            setTariff={updateTariff}
+            onTariffBlur={normalizeTariffInput}
             energyKwh={state.energy?.total_house_kwh || 0}
             cost={cost}
           />
@@ -549,7 +571,7 @@ function DeviceCard({ icon, name, power, mode, energy }) {
   );
 }
 
-function CostPanel({ tariff, setTariff, energyKwh, cost }) {
+function CostPanel({ tariffInput, setTariff, onTariffBlur, energyKwh, cost }) {
   return (
     <section className="panel cost-panel">
       <div className="panel-heading">
@@ -563,11 +585,12 @@ function CostPanel({ tariff, setTariff, energyKwh, cost }) {
       <label className="tariff-control">
         Tarifa CLP/kWh
         <input
-          type="number"
-          min="0"
-          step="1"
-          value={tariff}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          value={tariffInput}
           onChange={(event) => setTariff(event.target.value)}
+          onBlur={onTariffBlur}
         />
       </label>
 
