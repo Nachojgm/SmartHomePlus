@@ -33,28 +33,38 @@ button {
 .welcome-page {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(320px, 0.9fr) minmax(340px, 1.1fr);
+  grid-template-columns: minmax(360px, 0.86fr) minmax(520px, 1.14fr);
   align-items: stretch;
   color: #f8fafc;
-  background: #08111f;
+  background:
+    linear-gradient(135deg, rgba(5, 18, 36, 0.98), rgba(11, 35, 57, 0.96)),
+    #08111f;
   overflow: hidden;
 }
 
 .welcome-content {
-  padding: clamp(28px, 6vw, 84px);
+  padding: clamp(34px, 5vw, 76px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 28px;
+  gap: 24px;
   position: relative;
   z-index: 2;
+}
+
+.welcome-content::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, #8df5c8, #38bdf8, #f59e0b);
 }
 
 .brand-row {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #cbd5e1;
+  color: #a7f3d0;
   font-weight: 800;
   letter-spacing: 0;
 }
@@ -64,25 +74,25 @@ button {
   height: 42px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(141, 245, 200, 0.38);
+  background: rgba(141, 245, 200, 0.12);
   border-radius: 8px;
 }
 
 .welcome-content h1 {
   margin: 0;
-  max-width: 760px;
-  font-size: clamp(42px, 7vw, 86px);
-  line-height: 0.98;
+  max-width: 680px;
+  font-size: clamp(54px, 8vw, 104px);
+  line-height: 0.9;
   letter-spacing: 0;
 }
 
 .welcome-content p {
   margin: 0;
-  max-width: 640px;
-  color: #cbd5e1;
-  font-size: clamp(17px, 2vw, 22px);
-  line-height: 1.55;
+  max-width: 540px;
+  color: #dbeafe;
+  font-size: clamp(18px, 1.75vw, 23px);
+  line-height: 1.45;
 }
 
 .welcome-actions {
@@ -150,121 +160,323 @@ button {
   display: grid;
   grid-template-columns: repeat(3, minmax(130px, 1fr));
   gap: 12px;
-  max-width: 720px;
+  max-width: 760px;
 }
 
 .welcome-stats span {
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 18px;
+  border: 1px solid rgba(226, 232, 240, 0.13);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.07);
-  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.08);
+  color: #b6c5d8;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .welcome-stats b {
   display: block;
   margin-bottom: 6px;
   color: #f8fafc;
-  font-size: 24px;
+  font-size: 27px;
 }
 
 .house-scene {
   position: relative;
   min-height: 100vh;
-  display: flex;
+  display: grid;
+  place-items: center;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: clamp(24px, 4vw, 58px);
   background:
-    linear-gradient(145deg, rgba(37, 99, 235, 0.16), rgba(245, 158, 11, 0.12)),
-    #0b1626;
+    radial-gradient(circle at 76% 16%, rgba(251, 191, 36, 0.28), transparent 24%),
+    linear-gradient(180deg, #eaf5ff 0%, #dfefff 43%, #cbd5e1 44%, #1f2937 44%, #172032 100%);
+  overflow: hidden;
+}
+
+.scene-skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 31%;
+  height: 80px;
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.12) 0 7%, transparent 7% 12%),
+    linear-gradient(90deg, transparent 0 20%, rgba(15, 23, 42, 0.09) 20% 28%, transparent 28% 46%, rgba(15, 23, 42, 0.08) 46% 56%, transparent 56%);
+  opacity: 0.62;
 }
 
 .sun-disc {
   position: absolute;
-  top: 12%;
-  right: 16%;
-  width: 96px;
-  height: 96px;
+  top: 9%;
+  right: 12%;
+  width: 86px;
+  height: 86px;
   display: grid;
   place-items: center;
-  color: #92400e;
-  background: #fde68a;
+  color: #9a3412;
+  background: linear-gradient(135deg, #fde68a, #f59e0b);
   border-radius: 999px;
-  box-shadow: 0 0 70px rgba(245, 158, 11, 0.45);
+  box-shadow: 0 0 80px rgba(245, 158, 11, 0.42);
 }
 
-.house-roof {
-  position: absolute;
-  width: min(54vw, 520px);
-  height: min(25vw, 220px);
-  transform: translateY(-120px) rotate(45deg);
-  background: #c2410c;
-  border-radius: 8px;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
-}
-
-.house-body {
+.modern-home {
   position: relative;
   z-index: 1;
-  width: min(62vw, 600px);
-  height: min(34vw, 320px);
-  max-height: 360px;
-  min-height: 240px;
+  width: min(58vw, 680px);
+  min-width: 480px;
+  height: 390px;
+  align-self: end;
+  margin-bottom: 118px;
+}
+
+.modern-home::before {
+  content: "";
+  position: absolute;
+  left: -32px;
+  right: -26px;
+  bottom: -18px;
+  height: 26px;
+  background: #111827;
+  border-radius: 8px;
+  box-shadow: 0 28px 50px rgba(15, 23, 42, 0.38);
+}
+
+.solar-roof {
+  position: absolute;
+  left: 76px;
+  top: 24px;
+  width: 390px;
+  height: 92px;
   display: grid;
-  grid-template-columns: 1fr 0.75fr 1fr;
-  align-items: end;
-  gap: 28px;
-  padding: 42px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 10px;
+  background: #111827;
+  border-radius: 8px;
+  transform: skewX(-18deg);
+  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.24);
+}
+
+.solar-roof span {
+  border-radius: 5px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 34%),
+    #1d4ed8;
+  border: 1px solid rgba(147, 197, 253, 0.46);
+}
+
+.upper-floor,
+.main-floor {
+  position: absolute;
+  left: 34px;
+  right: 34px;
   background: #f8fafc;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+}
+
+.upper-floor {
+  top: 106px;
+  height: 128px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.78fr;
+  gap: 24px;
+  padding: 26px 30px;
+  border-radius: 8px 8px 0 0;
+}
+
+.main-floor {
+  top: 226px;
+  height: 150px;
+  display: grid;
+  grid-template-columns: 1fr 0.42fr 1.25fr;
+  gap: 20px;
+  align-items: end;
+  padding: 24px 30px 28px;
+  border-radius: 0 0 8px 8px;
+}
+
+.wide-window,
+.living-window {
   border-radius: 8px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.54), rgba(219, 234, 254, 0.2)),
+    #bfdbfe;
+  border: 5px solid #172032;
+  box-shadow: inset 0 0 28px rgba(37, 99, 235, 0.18);
 }
 
-.house-window,
-.house-door {
+.wide-window.lit,
+.living-window.lit {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.52), rgba(251, 191, 36, 0.2)),
+    #fde68a;
+}
+
+.front-door {
+  height: 110px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(180deg, #0f172a, #020617);
+  border: 5px solid #172032;
+}
+
+.garage-door {
+  height: 86px;
+  display: grid;
+  gap: 9px;
+  padding: 16px;
   border-radius: 8px;
-  background: #dbeafe;
-  border: 5px solid #1e293b;
+  background: #e2e8f0;
+  border: 5px solid #172032;
 }
 
-.house-window {
-  height: 96px;
-  align-self: center;
+.garage-door span {
+  background: #94a3b8;
+  border-radius: 999px;
 }
 
-.house-window.active {
+.home-controls {
+  position: absolute;
+  right: -18px;
+  bottom: 10px;
+  display: grid;
+  grid-template-columns: 88px 58px;
+  gap: 12px;
+  align-items: end;
+}
+
+.wall-battery,
+.ev-charger {
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.18);
+}
+
+.wall-battery {
+  height: 86px;
+  color: #064e3b;
+  background: #d1fae5;
+  font-size: 13px;
+}
+
+.wall-battery b {
+  font-size: 20px;
+}
+
+.ev-charger {
+  height: 112px;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.ev-charger.charging {
+  color: #065f46;
+  background: #a7f3d0;
+}
+
+.ev-car {
+  position: absolute;
+  z-index: 2;
+  right: 14%;
+  bottom: 13%;
+  width: 250px;
+  height: 92px;
+}
+
+.car-cabin {
+  position: absolute;
+  left: 62px;
+  top: 2px;
+  width: 116px;
+  height: 48px;
+  background: #bfdbfe;
+  border: 5px solid #111827;
+  border-radius: 44px 44px 8px 8px;
+}
+
+.car-body {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 20px;
+  height: 52px;
+  background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+  border: 5px solid #111827;
+  border-radius: 38px 48px 20px 20px;
+}
+
+.ev-car.charging .car-body {
+  background: linear-gradient(135deg, #ecfdf5, #99f6e4);
+}
+
+.car-light {
+  position: absolute;
+  right: 23px;
+  bottom: 49px;
+  width: 18px;
+  height: 10px;
   background: #fde68a;
+  border-radius: 999px;
 }
 
-.house-door {
-  height: 178px;
-  background: #0f172a;
+.wheel {
+  position: absolute;
+  bottom: 0;
+  width: 38px;
+  height: 38px;
+  background: #020617;
+  border: 7px solid #475569;
+  border-radius: 999px;
+}
+
+.wheel.left {
+  left: 58px;
+}
+
+.wheel.right {
+  right: 58px;
 }
 
 .energy-flow {
   position: absolute;
-  left: 9%;
-  height: 8px;
+  left: 8%;
+  height: 7px;
   border-radius: 999px;
-  opacity: 0.95;
+  opacity: 0.9;
+  box-shadow: 0 0 18px currentColor;
 }
 
 .solar-flow {
-  top: 27%;
-  background: #f59e0b;
+  top: 22%;
+  color: #f59e0b;
+  background: currentColor;
 }
 
 .load-flow {
-  bottom: 19%;
-  background: #38bdf8;
+  bottom: 28%;
+  color: #38bdf8;
+  background: currentColor;
+}
+
+.charger-cable {
+  position: absolute;
+  z-index: 1;
+  right: 23%;
+  bottom: 20%;
+  width: 128px;
+  height: 72px;
+  border-right: 5px solid #064e3b;
+  border-bottom: 5px solid #064e3b;
+  border-radius: 0 0 28px 0;
+  opacity: 0.78;
 }
 
 .scene-meters {
   position: absolute;
   right: 6%;
-  bottom: 8%;
+  bottom: 5%;
   display: grid;
   gap: 10px;
 }
@@ -277,9 +489,10 @@ button {
   min-width: 230px;
   padding: 12px;
   color: #e2e8f0;
-  background: rgba(15, 23, 42, 0.76);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(15, 23, 42, 0.86);
+  border: 1px solid rgba(226, 232, 240, 0.18);
   border-radius: 8px;
+  backdrop-filter: blur(12px);
 }
 
 .scene-meter b {
@@ -796,7 +1009,11 @@ button {
   }
 
   .house-scene {
-    min-height: 560px;
+    min-height: 680px;
+  }
+
+  .modern-home {
+    width: min(86vw, 680px);
   }
 
   .metric-grid {
@@ -838,23 +1055,43 @@ button {
     padding: 28px 18px;
   }
 
-  .house-scene {
-    padding: 20px;
+  .welcome-content h1 {
+    font-size: clamp(52px, 18vw, 82px);
   }
 
-  .house-body {
-    width: 92vw;
-    padding: 24px;
-    gap: 16px;
+  .house-scene {
+    min-height: 760px;
+    padding: 20px 14px;
+  }
+
+  .modern-home {
+    min-width: 0;
+    width: min(94vw, 520px);
+    height: 330px;
+    margin-bottom: 230px;
+    transform: scale(0.82);
+  }
+
+  .ev-car {
+    right: 50%;
+    bottom: 23%;
+    transform: translateX(50%) scale(0.82);
+  }
+
+  .charger-cable {
+    display: none;
   }
 
   .scene-meters {
-    position: static;
-    margin-top: 360px;
+    left: 14px;
+    right: 14px;
+    bottom: 18px;
+    grid-template-columns: 1fr;
     width: 100%;
   }
 
   .scene-meter {
-    width: 100%;
+    width: calc(100% - 28px);
+    min-width: 0;
   }
 }
