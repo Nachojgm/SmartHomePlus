@@ -33,7 +33,7 @@ button {
 .welcome-page {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(360px, 0.86fr) minmax(520px, 1.14fr);
+  grid-template-columns: minmax(420px, 0.74fr) minmax(660px, 1.26fr);
   align-items: stretch;
   color: #f8fafc;
   background:
@@ -43,13 +43,15 @@ button {
 }
 
 .welcome-content {
-  padding: clamp(34px, 5vw, 76px);
+  padding: clamp(34px, 4.5vw, 76px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 24px;
   position: relative;
   z-index: 2;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .welcome-content::before {
@@ -81,10 +83,11 @@ button {
 
 .welcome-content h1 {
   margin: 0;
-  max-width: 680px;
-  font-size: clamp(54px, 8vw, 104px);
-  line-height: 0.9;
+  max-width: 100%;
+  font-size: clamp(48px, 5.25vw, 86px);
+  line-height: 0.96;
   letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .welcome-content p {
@@ -188,8 +191,8 @@ button {
   justify-content: center;
   padding: clamp(24px, 4vw, 58px);
   background:
-    radial-gradient(circle at 76% 16%, rgba(251, 191, 36, 0.28), transparent 24%),
-    linear-gradient(180deg, #eaf5ff 0%, #dfefff 43%, #cbd5e1 44%, #1f2937 44%, #172032 100%);
+    radial-gradient(circle at 78% 13%, rgba(251, 191, 36, 0.28), transparent 23%),
+    linear-gradient(180deg, #e7f5ff 0%, #dceffd 45%, #d9e6dc 45%, #94a985 56%, #1f2937 56%, #172032 100%);
   overflow: hidden;
 }
 
@@ -222,38 +225,60 @@ button {
 .modern-home {
   position: relative;
   z-index: 1;
-  width: min(58vw, 680px);
-  min-width: 480px;
-  height: 390px;
+  width: min(62vw, 820px);
+  min-width: 620px;
+  height: 460px;
   align-self: end;
-  margin-bottom: 118px;
+  margin: 62px 40px 132px 0;
 }
 
-.modern-home::before {
+.home-shadow {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 64px;
+  height: 32px;
+  background: rgba(15, 23, 42, 0.22);
+  border-radius: 999px;
+  filter: blur(12px);
+}
+
+.roof-main {
+  position: absolute;
+  left: 62px;
+  top: 36px;
+  width: 598px;
+  height: 136px;
+  background: #334155;
+  border-radius: 8px 8px 4px 4px;
+  clip-path: polygon(9% 100%, 28% 14%, 96% 14%, 88% 100%);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.28);
+}
+
+.roof-main::after {
   content: "";
   position: absolute;
-  left: -32px;
-  right: -26px;
-  bottom: -18px;
-  height: 26px;
+  left: 22px;
+  right: 14px;
+  bottom: 0;
+  height: 14px;
   background: #111827;
-  border-radius: 8px;
-  box-shadow: 0 28px 50px rgba(15, 23, 42, 0.38);
+  border-radius: 999px;
 }
 
 .solar-roof {
   position: absolute;
-  left: 76px;
+  left: 174px;
   top: 24px;
-  width: 390px;
-  height: 92px;
+  width: 292px;
+  height: 72px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 10px;
+  gap: 7px;
+  padding: 8px;
   background: #111827;
   border-radius: 8px;
-  transform: skewX(-18deg);
+  transform: skewX(-12deg);
   box-shadow: 0 18px 32px rgba(15, 23, 42, 0.24);
 }
 
@@ -265,35 +290,38 @@ button {
   border: 1px solid rgba(147, 197, 253, 0.46);
 }
 
-.upper-floor,
-.main-floor {
+.house-shell {
   position: absolute;
-  left: 34px;
-  right: 34px;
-  background: #f8fafc;
+  left: 62px;
+  top: 158px;
+  width: 650px;
+  height: 214px;
+  display: grid;
+  grid-template-columns: 1fr 0.34fr 1.12fr;
+  gap: 18px;
+  padding: 28px 26px 30px;
+  background: linear-gradient(180deg, #ffffff, #f1f5f9);
   border: 1px solid rgba(148, 163, 184, 0.5);
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+  border-radius: 8px;
+  box-shadow: 0 24px 58px rgba(15, 23, 42, 0.18);
 }
 
-.upper-floor {
-  top: 106px;
-  height: 128px;
+.left-wing {
   display: grid;
-  grid-template-columns: 1.05fr 0.78fr;
-  gap: 24px;
-  padding: 26px 30px;
-  border-radius: 8px 8px 0 0;
+  grid-template-rows: 1fr 0.8fr;
+  gap: 16px;
 }
 
-.main-floor {
-  top: 226px;
-  height: 150px;
+.entry-volume {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 0.42fr 1.25fr;
-  gap: 20px;
   align-items: end;
-  padding: 24px 30px 28px;
-  border-radius: 0 0 8px 8px;
+  justify-items: center;
+}
+
+.garage-volume {
+  display: grid;
+  align-items: end;
 }
 
 .wide-window,
@@ -314,17 +342,35 @@ button {
 }
 
 .front-door {
-  height: 110px;
+  width: 68px;
+  height: 126px;
   border-radius: 8px 8px 0 0;
   background: linear-gradient(180deg, #0f172a, #020617);
   border: 5px solid #172032;
 }
 
+.porch-light {
+  position: absolute;
+  top: 30px;
+  width: 16px;
+  height: 16px;
+  background: #fbbf24;
+  border-radius: 999px;
+  box-shadow: 0 0 22px rgba(251, 191, 36, 0.75);
+}
+
+.entry-step {
+  width: 86px;
+  height: 10px;
+  background: #94a3b8;
+  border-radius: 999px;
+}
+
 .garage-door {
-  height: 86px;
+  height: 106px;
   display: grid;
   gap: 9px;
-  padding: 16px;
+  padding: 18px;
   border-radius: 8px;
   background: #e2e8f0;
   border: 5px solid #172032;
@@ -337,11 +383,10 @@ button {
 
 .home-controls {
   position: absolute;
-  right: -18px;
-  bottom: 10px;
-  display: grid;
-  grid-template-columns: 88px 58px;
-  gap: 12px;
+  right: 4px;
+  bottom: 102px;
+  display: flex;
+  gap: 10px;
   align-items: end;
 }
 
@@ -355,7 +400,8 @@ button {
 }
 
 .wall-battery {
-  height: 86px;
+  width: 82px;
+  height: 76px;
   color: #064e3b;
   background: #d1fae5;
   font-size: 13px;
@@ -366,9 +412,51 @@ button {
 }
 
 .ev-charger {
-  height: 112px;
+  width: 54px;
+  height: 98px;
   color: #0f172a;
   background: #ffffff;
+}
+
+.ev-charger span {
+  width: 22px;
+  height: 4px;
+  background: #94a3b8;
+  border-radius: 999px;
+}
+
+.garden-strip {
+  position: absolute;
+  left: 72px;
+  bottom: 58px;
+  display: flex;
+  gap: 14px;
+  align-items: end;
+}
+
+.garden-strip span {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(180deg, #22c55e, #15803d);
+  border-radius: 999px 999px 12px 12px;
+  box-shadow: 0 9px 18px rgba(21, 128, 61, 0.18);
+}
+
+.garden-strip span:nth-child(2) {
+  width: 46px;
+  height: 46px;
+}
+
+.driveway {
+  position: absolute;
+  right: 58px;
+  bottom: 35px;
+  width: 300px;
+  height: 95px;
+  background: linear-gradient(180deg, #e2e8f0, #cbd5e1);
+  clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+  border-radius: 22px 22px 8px 8px;
+  opacity: 0.95;
 }
 
 .ev-charger.charging {
@@ -379,18 +467,18 @@ button {
 .ev-car {
   position: absolute;
   z-index: 2;
-  right: 14%;
-  bottom: 13%;
-  width: 250px;
-  height: 92px;
+  right: 94px;
+  bottom: 70px;
+  width: 220px;
+  height: 82px;
 }
 
 .car-cabin {
   position: absolute;
-  left: 62px;
+  left: 54px;
   top: 2px;
-  width: 116px;
-  height: 48px;
+  width: 102px;
+  height: 42px;
   background: #bfdbfe;
   border: 5px solid #111827;
   border-radius: 44px 44px 8px 8px;
@@ -400,8 +488,8 @@ button {
   position: absolute;
   left: 18px;
   right: 18px;
-  bottom: 20px;
-  height: 52px;
+  bottom: 18px;
+  height: 48px;
   background: linear-gradient(135deg, #f8fafc, #cbd5e1);
   border: 5px solid #111827;
   border-radius: 38px 48px 20px 20px;
@@ -424,19 +512,19 @@ button {
 .wheel {
   position: absolute;
   bottom: 0;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   background: #020617;
   border: 7px solid #475569;
   border-radius: 999px;
 }
 
 .wheel.left {
-  left: 58px;
+  left: 50px;
 }
 
 .wheel.right {
-  right: 58px;
+  right: 50px;
 }
 
 .energy-flow {
@@ -463,10 +551,10 @@ button {
 .charger-cable {
   position: absolute;
   z-index: 1;
-  right: 23%;
-  bottom: 20%;
-  width: 128px;
-  height: 72px;
+  right: 230px;
+  bottom: 150px;
+  width: 84px;
+  height: 70px;
   border-right: 5px solid #064e3b;
   border-bottom: 5px solid #064e3b;
   border-radius: 0 0 28px 0;
@@ -475,10 +563,12 @@ button {
 
 .scene-meters {
   position: absolute;
-  right: 6%;
-  bottom: 5%;
+  right: 34px;
+  top: 34px;
+  bottom: auto;
   display: grid;
   gap: 10px;
+  z-index: 5;
 }
 
 .scene-meter {
@@ -1014,6 +1104,7 @@ button {
 
   .modern-home {
     width: min(86vw, 680px);
+    min-width: 620px;
   }
 
   .metric-grid {
@@ -1056,7 +1147,7 @@ button {
   }
 
   .welcome-content h1 {
-    font-size: clamp(52px, 18vw, 82px);
+    font-size: clamp(44px, 14vw, 64px);
   }
 
   .house-scene {
@@ -1065,17 +1156,18 @@ button {
   }
 
   .modern-home {
-    min-width: 0;
-    width: min(94vw, 520px);
-    height: 330px;
+    min-width: 620px;
+    width: 620px;
+    height: 420px;
     margin-bottom: 230px;
-    transform: scale(0.82);
+    transform: scale(0.62);
+    transform-origin: center bottom;
   }
 
   .ev-car {
     right: 50%;
     bottom: 23%;
-    transform: translateX(50%) scale(0.82);
+    transform: translateX(50%) scale(0.78);
   }
 
   .charger-cable {
@@ -1085,6 +1177,7 @@ button {
   .scene-meters {
     left: 14px;
     right: 14px;
+    top: auto;
     bottom: 18px;
     grid-template-columns: 1fr;
     width: 100%;

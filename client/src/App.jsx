@@ -263,27 +263,44 @@ function EnergyHouseScene({ state }) {
       </div>
 
       <div className="modern-home">
-        <div className="solar-roof">
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
-
-        <div className="upper-floor">
-          <div className="wide-window lit" />
-          <div className="wide-window" />
-        </div>
-
-        <div className="main-floor">
-          <div className="living-window lit" />
-          <div className="front-door" />
-          <div className="garage-door">
+        <div className="home-shadow" />
+        <div className="roof-main">
+          <div className="solar-roof">
+            <span />
             <span />
             <span />
             <span />
           </div>
         </div>
+
+        <div className="house-shell">
+          <div className="left-wing">
+            <div className="wide-window lit" />
+            <div className="living-window" />
+          </div>
+
+          <div className="entry-volume">
+            <div className="porch-light" />
+            <div className="front-door" />
+            <div className="entry-step" />
+          </div>
+
+          <div className="garage-volume">
+            <div className="garage-door">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        </div>
+
+        <div className="garden-strip">
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <div className="driveway" />
 
         <div className="home-controls">
           <div className="wall-battery">
@@ -292,6 +309,7 @@ function EnergyHouseScene({ state }) {
           </div>
           <div className={`ev-charger ${evActive ? "charging" : ""}`}>
             <PlugZap size={20} />
+            <span />
           </div>
         </div>
       </div>
